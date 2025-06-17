@@ -21,6 +21,19 @@ body {
   margin: auto;
 }
 
+.container2 {
+  width: 70%;
+  margin: auto;
+  margin-top: 100px;
+  text-indent: 50px;
+  font-size: 20px;
+}
+
+.container2 img{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .header {
   height: var(--tamanho-header);
   background-color: #F5F5F5;
@@ -88,6 +101,11 @@ body {
 /* MISSÃO VISÃO VALORES */
 
 .social {
+  background-color: #e5e5e5;
+  display: flex;
+}
+
+.social2 {
   background-color: #e5e5e5;
   display: flex;
 }

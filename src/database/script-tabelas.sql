@@ -55,3 +55,10 @@ create table medida (
 	fk_aquario INT,
 	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
 );
+
+insert into empresa (razao_social, codigo_ativacao) values ('Audaces', 'COD001');
+insert into empresa (razao_social, codigo_ativacao) values ('Orizio', 'COD002');
+insert into empresa (razao_social, codigo_ativacao) values ('Censi', 'COD003');
+insert into aquario (descricao, fk_empresa) values ('Galpão TechFit', 1);
+insert into aquario (descricao, fk_empresa) values ('Galpão Streets', 2);
+insert into aquario (descricao, fk_empresa) values ('Galpão SwagStyle', 3);

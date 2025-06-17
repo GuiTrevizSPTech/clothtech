@@ -95,12 +95,31 @@
 
         if (emailVar == "" || senhaVar == "") {
             cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            mensagem_erro.innerHTML = "Os campos precisam ser preenchidos!";
             finalizarAguardar();
+            setInterval(sumirMensagem, 5000);
             return false;
         }
         else {
-            setInterval(sumirMensagem, 5000)
+            if (!emailVar.includes("@") || !emailVar.includes(".")) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "Parece ter algo de errado no e-mail.";
+
+                finalizarAguardar();
+                setInterval(sumirMensagem, 5000);
+                return false;
+            } else if (senhaVar.length < 5 || confirmacaoSenhaVar.length < 5) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "A senha precisa ter 5 caracteres ou mais!";
+
+                finalizarAguardar();
+                setInterval(sumirMensagem, 5000);
+                return false;
+            } else {
+                setInterval(sumirMensagem, 5000)
+            }
         }
 
         console.log("FORM LOGIN: ", emailVar);

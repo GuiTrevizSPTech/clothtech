@@ -19,7 +19,7 @@
   <!--header inicio-->
   <div class="header">
     <div class="container">
-      <h1 class="titulo">AquaTech</h1>
+      <h1 class="titulo">Clothtech</h1>
       <ul class="navbar">
         <li>
           <a href="index.html">Inicial</a>
@@ -67,11 +67,11 @@
           </div>
           <div class="campo">
             <span>Senha:</span>
-            <input id="senha_input" type="password" placeholder="******" />
+            <input id="senha_input" minlength="5" type="password" placeholder="******" />
           </div>
           <div class="campo">
             <span>Confirmação da Senha:</span>
-            <input id="confirmacao_senha_input" type="password" placeholder="******" />
+            <input id="confirmacao_senha_input" minlength="5" type="password" placeholder="******" />
           </div>
           <button class="botao" onclick="cadastrar()">Cadastrar</button>
         </div>
@@ -123,12 +123,41 @@
     ) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+        "Você precisa inserir todos os campos para fazer o cadastro!";
 
       finalizarAguardar();
+      setInterval(sumirMensagem, 5000);
       return false;
     } else {
-      setInterval(sumirMensagem, 5000);
+      if (confirmacaoSenhaVar != senhaVar) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML =
+          "Parece que as senhas passadas nos campos não coincidem.";
+
+        finalizarAguardar();
+        setInterval(sumirMensagem, 5000);
+        return false;
+
+      } else if (!emailVar.includes("@") || !emailVar.includes(".")) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML =
+          "Parece ter algo de errado no e-mail.";
+
+        finalizarAguardar();
+        setInterval(sumirMensagem, 5000);
+        return false;
+      } else if (senhaVar.length < 5 || confirmacaoSenhaVar.length < 5) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML =
+          "A senha precisa ter 5 caracteres ou mais!";
+
+        finalizarAguardar();
+        setInterval(sumirMensagem, 5000);
+        return false;
+      } else {
+        setInterval(sumirMensagem, 5000);
+      }
+
     }
 
     // Verificando se o código de ativação é de alguma empresa cadastrada

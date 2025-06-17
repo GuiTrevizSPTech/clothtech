@@ -100,7 +100,7 @@
                 finalizarAguardar();
                 setInterval(sumirMensagem, 5000);
                 return false;
-            } else if (senhaVar.length < 5 || confirmacaoSenhaVar.length < 5) {
+            } else if (senhaVar.length < 5) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
                     "A senha precisa ter 5 caracteres ou mais!";

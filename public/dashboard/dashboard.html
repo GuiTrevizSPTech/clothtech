@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTech | Dashboards</title>
+    <title>ClothTech | Dashboards</title>
 
     
     <link rel="stylesheet" href="./../css/dashboards.css">
@@ -32,7 +32,7 @@
 
     <div class="janela">
         <div class="header-left">
-            <h1>AquaTech</h1>
+            <h1>ClothTech</h1>
 
             <div class="hello">
                 <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -40,7 +40,7 @@
 
             <div class="btn-nav-white">
                 <a href="./cards.html">
-                    <h3>Aquários</h3>
+                    <h3>Produção Textil</h3>
                 </a>
             </div>
 
@@ -50,11 +50,7 @@
 
             </div>
 
-            <div class="btn-nav-white">
-                <a href="./mural.html">
-                    <h3>Mural de Avisos</h3>
-                </a>
-            </div>
+           
 
             <div class="btn-logout" onclick="limparSessao()">
                 <h3>Sair</h3>
@@ -66,10 +62,9 @@
             <div id="alerta">
             </div>
 
-            <div class="btns-dash" id="btnAquario">
-                <!-- O gráfico é chamado de acordo com o id (fk_aquario) do banco  -->
-            </div>
             <div id="graficos">
+
+
             </div>
         </div>
     </div>
@@ -80,11 +75,101 @@
 </html>
 
 <script>
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+ 
 
-    let proximaAtualizacao;
+    window.onload = plotarGraficoPizza();
 
-    window.onload = exibirAquariosDoUsuario();
+ b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    let myChartLinha;
+    let myChartPizza;
+
+    let dadosBasico = [];
+    let dadosAvancado = [];
+    let dadosHacking = [];
+
+    function obterDados() {
+        var email = sessionStorage.EMAIL_USUARIO;
+
+        fetch('/cloth/tecidos')
+            .then(res => res.json())
+            .then(data => plotarGraficoPizza(data))
+            .catch(err => console.log("Erro ao buscar dados de registrados:", err));
+
+
+    }
+
+    function plotarGraficoPizza(dados) {
+        let unidades = [];
+        let perfis = [];
+
+        for (let i = 0; i < dados.length; i++) {
+            perfis.push(dados[i].descricao);
+            unidades.push(dados[i].unidades);
+        }
+
+        const ctx = document.getElementById('barra').getContext('2d');
+        const cores = [
+            '#bffe1b',
+            '#3aaa34',
+            '#02321a',
+            '#67bb87',
+            '#5f800d',
+            '#89cc86',
+        ];
+
+        myChartPizza = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: perfis,
+                datasets: [{
+                    data: unidades,
+                    backgroundColor: cores.slice(0, unidades.length),
+                    borderColor: '#ffffff',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        atualizarGraficoPizza();
+    }
+
+
+
+    function atualizarGraficoPizza() {
+        fetch('/usuarios/Registrados', { cache: 'no-store' })
+            .then(res => res.json())
+            .then(dados => {
+                if (!dados || dados.length === 0) return;
+
+                let unidades = [];
+                let perfis = [];
+
+                for (let i = 0; i < dados.length; i++) {
+                    perfis.push(dados[i].descricao);
+                    unidades.push(dados[i].unidades);
+                }
+
+                myChartPizza.data.labels = perfis;
+                myChartPizza.data.datasets[0].data = unidades;
+                myChartPizza.update();
+
+                setTimeout(atualizarGraficoPizza, 2000);
+            })
+            .catch(err => console.error("Erro ao atualizar gráfico de pizza:", err));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function exibirAquariosDoUsuario() {
         var aquarios = JSON.parse(sessionStorage.AQUARIOS);
